@@ -11,27 +11,11 @@ import { useHistory } from 'react-router-dom'
 export const Dashboard = () => {
   const history = useHistory()
   const [connecting, setConnecting] = useState(false)
-  const { select } = useWallet()
+  const { connected, select } = useWallet()
   const [postTitle, setPostTitle] = useState("")
   const [postContent, setPostContent] = useState("")
 
-  // Static Data
-  const user = {
-    name: "Random Robot",
-    avatar: "https://avatarfiles.alphacoders.com/283/thumb-283778.jpg",
-  }
-  const connected = true
-  const posts = []
-
-  const createPost = () => {
-
-  }
-
-  const showModal = false
-  const setShowModal = () => {
-
-  }
-  /////////////////
+  const { user, initialized, initUser, showModal, setShowModal, createPost, posts } = useBlog()
 
   const onConnect = () => {
     setConnecting(true)
@@ -70,6 +54,7 @@ export const Dashboard = () => {
               <p className=" font-bold text-sm ml-2 capitalize">
                 {user?.name}
               </p>
+              {initialized ? (
               <Button
                 className="ml-3 mr-2"
                 onClick={() => {
@@ -78,6 +63,17 @@ export const Dashboard = () => {
               >
                 Create Post
               </Button>
+              ) : (
+                <Button
+                className="ml-3 mr-2"
+                onClick={() => {
+                  initUser()
+                }}
+              >
+                Initialize User
+              </Button>
+              )}
+              
             </div>
           ) : (
             <Button
